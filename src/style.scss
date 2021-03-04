@@ -1,0 +1,26 @@
+main{
+    margin-left: 5%;
+    margin-right: 5%;
+
+    .cardlist{
+        margin-top: 20px;
+    
+        .card{
+            width: 40rem;
+            margin-bottom: 20px;
+            border-radius: 1px;
+        
+            .card-header{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                background-color: darkslategray;
+                color: whitesmoke;
+            }
+        }
+    }
+}
+
+#editform{
+    margin-top: 20px;
+}
