@@ -1,10 +1,25 @@
 import {Link} from 'react-router-dom';
 import Cookies from 'js-cookie';
-import {useEffect} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {useHistory} from 'react-router-dom';
+import CurrentUser from '../../stores/CurrentUser/index';
 
 const Navbar =() => {
-
-	useEffect(()=>{Cookies.get('token')},[]);
+	const getCurrentUser = (state) => state;
+	const {islogged} = useSelector(getCurrentUser);
+	const history = useHistory();
+	const dispatch = useDispatch();
+	
+	const handleLogout=(e)=>{
+		e.preventDefault();
+		Cookies.remove('token');
+		history.push('/');
+		dispatch(CurrentUser({
+			id: "not logged in",
+			email: "not logged in",
+			islogged: false
+		}))
+	}
 
 	return (
 		<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -24,8 +39,8 @@ const Navbar =() => {
 				</div>
 			</div>
 			<div className="navbar-nav">
-				{(Cookies.get('token')) ? (
-					<button className="btn btn-outline-secondary" onClick="#">Log out</button>
+				{(islogged === true) ? (
+					<button className="btn btn-outline-secondary" onClick={handleLogout}>Log out</button>
 				) : ( 
 					<Link className="btn btn-outline-secondary" to="/login">Log in</Link>
 				)}		

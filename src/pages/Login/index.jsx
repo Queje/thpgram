@@ -7,7 +7,7 @@ import CurrentUser from '../../stores/CurrentUser/index';
 const Login =() => {
 	const history = useHistory();
 	const dispatch = useDispatch();
-
+	
 	const handleLogin=(e) => {
 		e.preventDefault();
 		
@@ -29,14 +29,20 @@ const Login =() => {
 			if(response.status === 200){
 				Cookies.set('token', response.headers.get('Authorization').split(' ')[1]);
 				return response.json()
-			}})
-		.then ((response) => {
-			history.push('/')
-			dispatch(CurrentUser({
-				id: response.data.attributes.id,
-				email: response.data.attributes.email,
-			}))
+			} else {
+				history.push('/login')
+				alert("unable to login, please retry or register")
+			}
 		})
+		.then ((response) => {
+			if (response){
+				history.push('/')
+				dispatch(CurrentUser({
+					id: response.data.attributes.id,
+					email: response.data.attributes.email,
+					islogged: true
+				}))
+			}})
 	}
 
 	return(
@@ -44,7 +50,7 @@ const Login =() => {
 			<h2>Login</h2>
 				<form onSubmit={handleLogin}>
 					<div className="form-group">
-						<label>Username / Email</label>
+						<label>Email</label>
 						<input type="text" className="form-control" id="username" aria-describedby="username" required/>
 					</div>
 					<div className="form-group">

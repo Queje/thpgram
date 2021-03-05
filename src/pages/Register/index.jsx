@@ -1,11 +1,11 @@
-// import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import Cookies from 'js-cookie';
-// import { useDispatch } from 'react-redux';
-// import CurrentUser from '../../stores/CurrentUser';
+import { useDispatch } from 'react-redux';
+import CurrentUser from '../../stores/CurrentUser';
 
 const Register =() => {
-	// const history = useHistory();
-	// const dispatch = useDispatch();
+	const history = useHistory();
+	const dispatch = useDispatch();
 
 	const handleSubmit =(e) => {
 		e.preventDefault();
@@ -26,26 +26,24 @@ const Register =() => {
 			body: JSON.stringify(userInput)
 		})
 		.then((response) => {
-			if(response){
+			if(response.status === 200){
 				Cookies.set('token', response.headers.get('Authorization').split(' ')[1]);
-			} 
-		}
-			
-		)
-		// .then ((response) => {
-		// 	if (response.user && response.user.confirmed) {
-		// 	Cookies.set('token', response.jwt);
-		// 	history.push('/')
-		// 	dispatch(CurrentUser({
-		// 		id: response.user.id,
-		// 		username: response.user.username,
-		// 		email: response.user.email,
-		// 	}))} else {
-		// 		alert(response.data[0].messages[0].message)
-		// 		history.push('/register')
-		// 	}
-		// })
-	}
+				return response.json()
+			} else {
+				history.push('/register')
+				alert("unable to register, please retry or login if you already have an account")
+			}
+		})
+		.then ((response) => {
+			if (response){
+			history.push('/')
+			dispatch(CurrentUser({
+				id: response.data.attributes.id,
+				email: response.data.attributes.email,
+				islogged: true
+			}))}
+		})
+	}		
 
 	return(
 			<section>

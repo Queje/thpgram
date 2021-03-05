@@ -2,20 +2,19 @@ import { createStore } from 'redux';
 
 const initialState = {
     id: "not logged in",
-    username: "not logged in",
     email: "not logged in",
- }
+    islogged: false
+}
 
 const Reducer = (state , payload) => {
-    const { type, id, email } = payload;
+    const { type, id, email, islogged } = payload;
 
     switch(type) {
         case 'CurrentUser':
-            return state = {id, email};
+            return state = {id, email, islogged};
         default:
             return state = initialState;
     }
-    return state;
 }
 
 export default createStore(Reducer, 

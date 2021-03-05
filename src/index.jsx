@@ -13,6 +13,8 @@ import Navbar from './components/Navbar/index';
 import Login from './pages/Login/index';
 import Register from './pages/Register/index';
 import Home from './pages/Home/index';
+import PrivateRoute from './components/PrivateRoute';
+import Post from './pages/Post';
 
 const App =() => {
 
@@ -32,6 +34,7 @@ const App =() => {
                                 <Route path="/login">
                                     <Login />
                                 </Route>
+                                <PrivateRoute path="/post" component={Post} />
                             </Switch>
                         </main>
                 </Router>
